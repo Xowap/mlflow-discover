@@ -71,7 +71,7 @@ def stream_conll_lines(bucket: str, prefix: str) -> Iterator[str]:
         if continuation_token:
             url += f"&continuation-token={continuation_token}"
 
-        response = httpx.get(url)
+        response = httpx.get(url, timeout=30)
         root = ETree.fromstring(response.content)
 
         # Parse XML namespace
@@ -89,7 +89,7 @@ def stream_conll_lines(bucket: str, prefix: str) -> Iterator[str]:
 
             # Stream file line by line
             file_url = f"https://{bucket}.s3.amazonaws.com/{key}"
-            with httpx.stream("GET", file_url) as r:
+            with httpx.stream("GET", file_url, timeout=30) as r:
                 yield from r.iter_lines()
 
         # Check if there are more pages

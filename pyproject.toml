@@ -15,6 +15,7 @@ dependencies = [
     "httpx",
     "defusedxml",
     "orjson",
+    "ollama",
 ]
 
 [project.scripts]
